@@ -21,7 +21,7 @@ public class KafkaStreamProcessor {
 			return customerInfoStream -> (
 					balanceInfoTable -> (
 							customerInfoStream.join(balanceInfoTable,
-									(customerId, customerInfo) -> customerInfo.getAccountId(),
+									(key, customerInfo) -> customerInfo.getAccountId(),
 									(customerInfo, balanceInfo) ->  {
 										CustomerBalanceInfo customerBalanceInfo = new CustomerBalanceInfo();
 										customerBalanceInfo.setCustomerId(customerInfo.getCustomerId());
