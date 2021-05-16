@@ -1,0 +1,44 @@
+spring.cloud.stream:
+  function:
+    definition: process
+    bindings:
+      process-in-0: customer-info
+      process-in-1: balance-info
+      process-out-0: customer-balance-info
+#  bindings:
+#    input:
+#      destination: input
+#    output:
+#      destination: output
+
+  kafka:
+    streams:
+      binder:
+        applicationId: ibm-streams-customer-balance
+        configuration:
+          commit.interval.ms: 100
+          default:
+            key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+#Enable metrics
+management:
+  metrics:
+    export:
+      wavefront:
+        enabled: false
+      prometheus:
+        enabled: false
+        rsocket:
+          enabled: false
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: health,info,bindings
+#        include: metrics,health,info,bindings
+#Enable logging to debug for spring kafka config
+#logging:
+#  level:
+#    org.springframework.kafka.config: debug

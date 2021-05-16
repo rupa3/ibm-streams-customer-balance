@@ -1,0 +1,52 @@
+== What is this app?
+
+This is an example of a Spring Cloud Stream processor using Kafka Streams support. This app enables real time streaming
+of customer details from customer-info topic and balance details from balance-info topic and then produces new messages
+to customer-balance-info topic by combing customer and balance details by account id
+
+=== Running the app:
+
+Prerequisites: Install kafka and Bring up locally, Below are useful commands
+
+Go to dir    D:\Kafka\kafka_2.12-2.7.0\bin\windows>
+Start Zoo Keeper: start zookeeper-server-start.bat zookeeper.properties
+Start Kafka: start kafka-server-start.bat server.properties
+List All topics: kafka-topics.bat --list --bootstrap-server localhost:9092
+Consume messages: kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic customer-balance-info --from-beginning
+
+Publish Messages to kafka:
+
+Run the KafkaProducer class which will publish messages to customer-info and balance-info topic.
+Prepare customer details as key value, key can be any id(preferably account id) and value should be customer details.
+Prepare balance details as key value, key as account id and value should be balance details.
+
+Bring Up the App:
+
+Build and Run the application: For build 'mvn clean install' and to run 'mvn spring-boot:run'
+Or
+Run the main method of CustomerBalanceStreamApplication
+
+Stream Processor:
+
+Here we used spring cloud kafka dependency which helps to bring all the necessary dependencies to run the kafka stream
+processor to connect to kafka and process messages in real time
+
+Define properties in application.yml for spring.cloud.stream with corresponding function bean and the input, output
+topics.
+
+Run the application after publishing messages to customer and balance info topics.
+
+Use below command to check the messages produced to customer-balance-info topic
+
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic customer-balance-info --from-beginning
+
+Sample output:
+
+{"accountId":"111","customerId":"5678","phoneNumber":"5453455555","balance":10.0}
+{"accountId":"222","customerId":"4321","phoneNumber":"4353453455","balance":20.0}
+{"accountId":"333","customerId":"2435","phoneNumber":"4534342342","balance":30.0}
+{"accountId":"444","customerId":"8756","phoneNumber":"6967532432","balance":40.0}
+{"accountId":"555","customerId":"3246","phoneNumber":"6067576575","balance":50.0}
+{"accountId":"666","customerId":"6789","phoneNumber":"8788977879","balance":60.0}
+
+Once you are done, stop the Kafka
